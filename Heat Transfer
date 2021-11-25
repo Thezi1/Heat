@@ -1,0 +1,31 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+L=0.1
+n=10
+T0=0
+T1s = 40
+T2s = 20
+dx = L/n
+alpha = 0.0001
+t_final = 60
+dt = 0.1
+
+x = np.linspace(dx/2, L-dx/2, n)
+
+T = np.zeros(n)
+dTdt = np.empty(n)
+
+t=np.arange(0, t_final, dt)
+
+for j in range(1,len(t)):
+    dTdt[0] = alpha * (T1s - 2 * T[0] + T[1]) / dx ** 2
+    for i in range(1,n-1):
+        dTdt[i]= alpha*(T[i-1]-2*T[i]+T[i+1])/dx**2
+    dTdt[n - 1] = alpha * (T[n - 2] - 2 * T[n - 1] + T2s) / dx ** 2
+    T = T + dTdt*dt
+    print(j)
+    print(T)
+    plt.plot(x,T)
+    plt.show()
+    plt.pause(0.01)
